@@ -59,7 +59,7 @@ export default {
     };
   },
   methods:{
-    reset(){d
+    reset(){
       this.$refs.loginFormRef.resetFields()
      
     },
