@@ -1,0 +1,30 @@
+{
+  "id": "2872770",
+  "name": "sportplay",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "运动springboot+vue的运动软件实现",
+  "glyphs": [
+    {
+      "icon_id": "14279541",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "20607468",
+      "name": "002_密码",
+      "font_class": "002_mima",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "11222364",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e75c",
+      "unicode_decimal": 59228
+    }
+  ]
+}
