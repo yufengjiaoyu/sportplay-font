@@ -68,9 +68,12 @@ export default {
         if(!vali) return;
        const {data: res} = await this.$http.post('login', this.loginForm);
        if(res.flag==='ok'){
+        
         this.$message.success('登陆成功');
+        
+        console.log(res.user)
+        window.sessionStorage.setItem("user",res.user)
         this.$router.push({path:"/home"});
-       console.log(res.user)
        }else{
          this.$message.error('登陆失败');
        }
