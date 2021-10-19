@@ -1,7 +1,7 @@
 <template>
   <el-container class="big-container">
     <el-header>
-      <div>
+      <div @click="backHome">
         <img src="./pic/a.jpg" />
         <span>运动管理平台</span>
       </div>
@@ -11,7 +11,7 @@
 
     <el-container class="big-side">
       <el-aside width='isCollapse?"200px":"64px"'>
-        <div class="toggleaside" @click="toggleAside">|||</div>
+        <div class="toggleaside" @click="toggleAside" >|||</div>
         <el-menu
           class="el-menu-vertical-demo"
           background-color="#545c64"
@@ -20,18 +20,22 @@
           unique-opened
           :collapse=isCollapse
           :collapse-transition="false"
+          :router="true"
+          :default-active="activePath"
         >
-          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
+          <el-submenu :index="item.path" 
+          v-for="item in menuList"
+           :key="item.id">
             <template slot="title">
               <i :class="iconsObject[item.id]"></i>
               <span>{{ item.title }}</span>
             </template>
 
             <el-menu-item
-              :index="item1.id+''"
+              :index="item1.path"
               v-for="item1 in item.sList"
               :key="item1.id"
-            >
+              @click="savNavState(item1.path)">
               <template slot="title">
                 <i :class="iconsObject[item1.id]"></i>
                 <span>{{ item1.title }}</span>
@@ -41,7 +45,9 @@
         </el-menu>
       </el-aside>
 
-      <el-main>主页面区</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -50,6 +56,7 @@
 export default {
   data() {
     return {
+      activePath: '/welcome',
       isCollapse:false,
       menuList: [],
        iconsObject: {
@@ -68,8 +75,19 @@ export default {
   },
   created() {
     this.getMenuList();
+   this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
+    savNavState(activePath){
+       window.sessionStorage.setItem("activePath",activePath)
+      this.activePath = activePath
+    },
+    backHome(){
+      if(this.$router.currentRoute.path !== '/welcome'){
+   this.$router.push('./home')
+      }
+     
+    },
     toggleAside(){
       this.isCollapse = !this.isCollapse;
 
@@ -78,7 +96,7 @@ export default {
       const { data: res } = await this.$http.get("menus");
       if (res.flag !== 200) return this.$message.error("获取菜单数据失败");
       this.menuList = res.menus;
-      console.log(res);
+     
     },
     quit() {
       window.sessionStorage.clear();
@@ -99,6 +117,7 @@ export default {
     line-height: 60px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .el-button {
       margin-bottom: 12px;
@@ -108,6 +127,7 @@ export default {
     div {
       display: flex;
       border-radius: 50%;
+      cursor: pointer;
 
       img {
         width: 50px;
@@ -124,9 +144,9 @@ export default {
 
   .el-main {
     background-color: #e9eef3;
-    color: #333;
+  
     text-align: center;
-    line-height: 160px;
+   
   }
 }
 
@@ -139,7 +159,7 @@ export default {
       border-right: none;
     }
   };
-  div {
+  .toggleaside {
     background-color: #4a5064;
     font-size: 10px;
     line-height: 24px;
